@@ -1,4 +1,4 @@
-package um.backend;
+package um.backend.todo;
 
 import org.springframework.stereotype.Repository;
 

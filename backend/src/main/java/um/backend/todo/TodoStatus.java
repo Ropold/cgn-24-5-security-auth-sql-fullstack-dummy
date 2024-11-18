@@ -1,4 +1,4 @@
-package um.backend;
+package um.backend.todo;
 
 public enum TodoStatus {
     OPEN,

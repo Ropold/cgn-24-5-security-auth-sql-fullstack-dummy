@@ -15,6 +15,17 @@ function App() {
             })
     }
 
+    const login = () => {
+        window.open("http://localhost:8080/oauth2/authorization/github", "_self")
+    }
+
+    const loadCurrentUser = () => {
+        axios.get("/api/users/me")
+            .then((response) => {
+                console.log(response.data)
+            })
+    }
+
     useEffect(fetchTodos, [])
 
     if (!todos) {
@@ -23,6 +34,8 @@ function App() {
 
     return (
         <>
+            <button onClick={login}>Login</button>
+            <button onClick={loadCurrentUser}>Me</button>
             <div className="page">
                 <h1>My TODO App</h1>
                 {
