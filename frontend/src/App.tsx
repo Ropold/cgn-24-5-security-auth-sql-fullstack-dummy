@@ -1,12 +1,14 @@
 import {Todo} from "./Todo.ts";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import TodoColumn from "./TodoColumn.tsx";
-import {allPossibleTodos} from "./TodoStatus.ts";
+import {Link, Route, Routes} from "react-router-dom";
+import HomePage from "./HomePage.tsx";
+import NewTodoCard from "./NewTodoCard.tsx";
+import ProtectedRoute from "./ProtectedRoute.tsx";
 
 function App() {
 
-    const [todos, setTodos] = useState<Todo[]>()
+    const [todos, setTodos] = useState<Todo[]>([])
     const [user, setUser] = useState<string>()
 
     function fetchTodos() {
@@ -46,22 +48,30 @@ function App() {
 
     return (
         <>
-        {!user && <button onClick={login}>Login</button>}
+            {!user && <button onClick={login}>Login</button>}
             <p>{user}</p>
-        {user && <button onClick={logout}>Logout</button>}
+            {user && <button onClick={logout}>Logout</button>}
+            <Link to={"/"}>Home</Link>
+            <Link to={"/new"}>New</Link>
+            <Link to={"/admin"}>New</Link>
             <div className="page">
                 <h1>My TODO App</h1>
-                {
-                    allPossibleTodos.map(status => {
-                        const filteredTodos = todos.filter(todo => todo.status === status)
-                        return <TodoColumn
-                            status={status}
-                            todos={filteredTodos}
-                            onTodoItemChange={fetchTodos}
-                            key={status}
-                        />
-                    })
-                }
+                <Routes>
+                    <Route path="/"
+                           element={<HomePage todos={todos}
+                                              fetchTodos={fetchTodos}/>}/>
+
+                    <Route element={<ProtectedRoute user={user} />}>
+
+                        <Route path={"/new"}
+                               element={<NewTodoCard onTodoItemChange={fetchTodos}/>}/>
+
+                        <Route path={"/admin"}
+                               element={<NewTodoCard onTodoItemChange={fetchTodos}/>}/>
+
+                    </Route>
+
+                </Routes>
             </div>
         </>
     )
