@@ -7,6 +7,7 @@ import {allPossibleTodos} from "./TodoStatus.ts";
 function App() {
 
     const [todos, setTodos] = useState<Todo[]>()
+    const [user, setUser] = useState<string>()
 
     function fetchTodos() {
         axios.get("/api/todo")
@@ -16,17 +17,28 @@ function App() {
     }
 
     const login = () => {
-        window.open("http://localhost:8080/oauth2/authorization/github", "_self")
+        const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
+
+        window.open(host + '/oauth2/authorization/github', '_self')
+    }
+
+    const logout = () => {
+        const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
+
+        window.open(host + '/logout', '_self')
     }
 
     const loadCurrentUser = () => {
         axios.get("/api/users/me")
             .then((response) => {
-                console.log(response.data)
+                setUser(response.data)
             })
     }
 
     useEffect(fetchTodos, [])
+    useEffect(() => {
+        loadCurrentUser()
+    }, []);
 
     if (!todos) {
         return "Lade..."
@@ -34,8 +46,9 @@ function App() {
 
     return (
         <>
-            <button onClick={login}>Login</button>
-            <button onClick={loadCurrentUser}>Me</button>
+        {!user && <button onClick={login}>Login</button>}
+            <p>{user}</p>
+        {user && <button onClick={logout}>Logout</button>}
             <div className="page">
                 <h1>My TODO App</h1>
                 {

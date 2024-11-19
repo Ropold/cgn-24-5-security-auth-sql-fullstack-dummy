@@ -13,6 +13,6 @@ public class UserController {
     @GetMapping
     public String getCurrentUser(@AuthenticationPrincipal OAuth2User user) {
         System.out.println(user);
-        return user.getName();
+        return user.getAttributes().get("login").toString();
     }
 }
