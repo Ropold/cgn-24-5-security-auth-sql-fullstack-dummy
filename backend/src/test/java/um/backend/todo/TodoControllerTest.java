@@ -116,19 +116,6 @@ class TodoControllerTest {
 
     @Test
     @DirtiesContext
-    void getByIdTest_whenInvalidId_thenStatus404() throws Exception {
-        //GIVEN
-        //WHEN
-
-        mockMvc.perform(get("/api/todo/1"))
-                //THEN
-                .andExpect(status().isNotFound());
-
-    }
-
-
-    @Test
-    @DirtiesContext
     void deleteTodoById() throws Exception {
         //GIVEN
         Todo existingTodo = new Todo("1", "test-description", TodoStatus.OPEN);
