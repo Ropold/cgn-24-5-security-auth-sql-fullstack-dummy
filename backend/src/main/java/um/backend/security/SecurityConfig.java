@@ -27,6 +27,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/users/me").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/todo").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/todo").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/todo/*").hasAuthority("ADMIN")
                         .anyRequest().permitAll())
 
                 .csrf(AbstractHttpConfigurer::disable)

@@ -9,7 +9,7 @@ import ProtectedRoute from "./ProtectedRoute.tsx";
 function App() {
 
     const [todos, setTodos] = useState<Todo[]>([])
-    const [user, setUser] = useState<string>()
+    const [user, setUser] = useState<{id: string} | undefined>()
 
     function fetchTodos() {
         axios.get("/api/todo")
@@ -49,7 +49,7 @@ function App() {
     return (
         <>
             {!user && <button onClick={login}>Login</button>}
-            <p>{user}</p>
+            <p>{user?.id}</p>
             {user && <button onClick={logout}>Logout</button>}
             <Link to={"/"}>Home</Link>
             <Link to={"/new"}>New</Link>
