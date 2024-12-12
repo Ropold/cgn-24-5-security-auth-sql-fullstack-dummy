@@ -1,9 +1,8 @@
 package um.backend;
 
-public record AppUser(
+public record AppUserProfile(
         String id,
         String username,
-        String password,
         String imgUrl,
         String role
 ) {

@@ -9,7 +9,8 @@ import ProtectedRoute from "./ProtectedRoute.tsx";
 function App() {
 
     const [todos, setTodos] = useState<Todo[]>([])
-    const [user, setUser] = useState<{id: string} | undefined>()
+    const [user, setUser] = useState<{ id: string } | undefined>()
+    const [loginData, setLoginData] = useState<{ username: string, password: string }>({username: "", password: ""})
 
     function fetchTodos() {
         axios.get("/api/todo")
@@ -19,9 +20,15 @@ function App() {
     }
 
     const login = () => {
-        const host = window.location.host === 'localhost:5173' ? 'http://localhost:8080' : window.location.origin
-
-        window.open(host + '/oauth2/authorization/github', '_self')
+        axios.get("/api/users/me", {
+            auth: {
+                username: loginData.username,
+                password: loginData.password
+            }
+        })
+            .then((response) => {
+                setUser(response.data)
+            })
     }
 
     const logout = () => {
@@ -48,6 +55,12 @@ function App() {
 
     return (
         <>
+            <input value={loginData.username}
+                   placeholder={"Username"}
+                   onChange={(e) => setLoginData(prevState => ({...prevState, username: e.target.value}))}/>
+            <input value={loginData.password}
+                   placeholder={"Password"}
+                   onChange={(e) => setLoginData(prevState => ({...prevState, password: e.target.value}))}/>
             {!user && <button onClick={login}>Login</button>}
             <p>{user?.id}</p>
             {user && <button onClick={logout}>Logout</button>}
@@ -61,7 +74,7 @@ function App() {
                            element={<HomePage todos={todos}
                                               fetchTodos={fetchTodos}/>}/>
 
-                    <Route element={<ProtectedRoute user={user} />}>
+                    <Route element={<ProtectedRoute user={user}/>}>
 
                         <Route path={"/new"}
                                element={<NewTodoCard onTodoItemChange={fetchTodos}/>}/>

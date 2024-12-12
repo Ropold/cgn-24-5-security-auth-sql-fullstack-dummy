@@ -19,16 +19,12 @@ class UserControllerTest {
     MockMvc mockMvc;
 
     @Test
-//    @WithMockUser
+    @WithMockUser
     void testMe() throws Exception {
         //GIVEN
 
         //WHEN
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me")
-                .with(oidcLogin()
-                        .userInfoToken(token -> token
-                                .claim("login", "test-user")
-                                .claim("avatar_url", "img"))));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me"));
 
         //THEN
     }
