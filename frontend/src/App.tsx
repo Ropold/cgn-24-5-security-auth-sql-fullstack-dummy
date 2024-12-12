@@ -53,7 +53,7 @@ function App() {
             {user && <button onClick={logout}>Logout</button>}
             <Link to={"/"}>Home</Link>
             <Link to={"/new"}>New</Link>
-            <Link to={"/admin"}>New</Link>
+            <Link to={"/admin"}>Admin</Link>
             <div className="page">
                 <h1>My TODO App</h1>
                 <Routes>
