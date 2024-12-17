@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import um.backend.AppUser;
 import um.backend.AppUserService;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -31,9 +32,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             appUser = appUserService.addUser(new AppUser(user.getName(),
                     user.getAttributes().get("login").toString(),
                     user.getAttributes().get("avatar_url").toString(),
-                    "USER"));
+                    "USER",  List.of()));
         }
 
-        return new DefaultOAuth2User(AuthorityUtils.createAuthorityList(appUser.role()), user.getAttributes(),"id");
+        return new DefaultOAuth2User(AuthorityUtils.createAuthorityList(appUser.getRole()), user.getAttributes(),"id");
     }
 }

@@ -1,6 +1,7 @@
 package um.backend.todo;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface TodoRepository extends MongoRepository<Todo, String> {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TodoRepository extends JpaRepository<Todo, String> {
 }

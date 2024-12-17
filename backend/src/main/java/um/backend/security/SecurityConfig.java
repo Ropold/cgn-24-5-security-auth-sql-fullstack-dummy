@@ -24,7 +24,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers(HttpMethod.GET, "/api/users/me").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/users/me").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/todo").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/todo").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/todo/*").hasAuthority("ADMIN")

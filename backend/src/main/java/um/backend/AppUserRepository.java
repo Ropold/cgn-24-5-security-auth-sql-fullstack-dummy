@@ -1,6 +1,7 @@
 package um.backend;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface AppUserRepository extends MongoRepository<AppUser, String> {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AppUserRepository extends JpaRepository<AppUser, String> {
 }
