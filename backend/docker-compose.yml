@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: db
+    environment:
+      POSTGRES_USER: ropold
+      POSTGRES_PASSWORD: ${SQL_PW}  # Passwort aus der .env-Datei
+      POSTGRES_DB: todo-sql
+    ports:
+      - "5432:5432"  # Portweiterleitung für PostgreSQL
+    networks:
+      - backend-network
+
+  backend:
+    image: your-backend-image
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/your_database
+      SPRING_DATASOURCE_USERNAME: your_user
+      SPRING_DATASOURCE_PASSWORD: your_password
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-network
+
